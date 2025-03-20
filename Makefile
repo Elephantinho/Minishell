@@ -8,7 +8,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): libft/libft.a $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LDREADFLAG)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LDREADFLAG) libft/libft.a
 
 clean:
 	rm -f $(OBJ)
