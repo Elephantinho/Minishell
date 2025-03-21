@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   env_size.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/18 17:56:37 by mshahein         ###   ########.fr       */
+/*   Created: 2025/03/21 21:15:07 by mshahein          #+#    #+#             */
+/*   Updated: 2025/03/21 21:15:14 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../includes/minishell.h"
 
-# include "libft/libft.h"
+int	ft_env_size(char **env)
+{
+	int	i;
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#endif
+	i = 0;
+	while (env[i])
+		i++;
+	return (i);
+}

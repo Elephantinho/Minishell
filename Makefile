@@ -1,27 +1,35 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 LDREADFLAG = -lreadline
 NAME = minishell
 SRC = main.c \
+		env/add_env.c \
+		env/free_env.c \
+		env/copy_print_env.c \
+		env/env_size.c \
+		env/get_set_env.c \
+		builtins/env.c \
+		builtins/export.c \
+		builtins/unset.c \
 
 OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
-$(NAME): libft/libft.a $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LDREADFLAG) libft/libft.a
+$(NAME): includes/libft/libft.a $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LDREADFLAG) includes/libft/libft.a
 
 clean:
 	rm -f $(OBJ)
-	@make -C libft clean --quiet
+	@make -C includes/libft clean --quiet
 
 fclean: clean
 	rm -f $(NAME)
-	@make -C libft fclean --quiet
+	@make -C includes/libft fclean --quiet
 
 re : fclean all
 
-libft/libft.a:
+includes/libft/libft.a:
 	@echo "Compiling libft..."
-	@make -C libft --quiet
+	@make -C includes/libft --quiet
 
 .PHONY: all clean fclean re

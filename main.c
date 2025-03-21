@@ -6,62 +6,64 @@
 /*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:07 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/20 18:53:50 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/03/21 20:40:55 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell.h"
 
-char	**copy_env(char **envp)
-{
-	char	**env;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	env = (char **)malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (envp[i])
-	{
-		env[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	env[i] = NULL;
-	return (env);
-}
-
-void	print_env(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		ft_putendl_fd(env[i], 1);
-		i++;
-	}
-}
+#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	**env;
-
-	env = copy_env(envp);
 	(void)argc;
 	(void)argv;
-	(void)envp;
-	char *s;
 
-	print_env(env);
+	char	**env;
+	char	**args;
+	char	*s;
 
-	while(1)
+	env = copy_env(envp);
+	while (1)
 	{
+		// Leggi la riga di input
 		s = readline("minishell ");
 		if (!s)
-			break ;
+			break; // Uscita se l'utente digita EOF (Ctrl+D)
 		add_history(s);
+		args = ft_split(s, ' ');
+		if (ft_strncmp(args[0], "export", 6) == 0)
+			ft_export(args, &env);
+		if (ft_strncmp(args[0], "env", 3) == 0)
+			ft_env(env);
+		if (ft_strncmp(args[0], "unset", 5) == 0)
+			ft_unset(args, &env);
 		free(s);
+		if (args)
+		{
+			int i = 0;
+			while (args[i])
+			{
+				free(args[i]); // Libera ogni argomento
+				i++;
+			}
+			free(args); // Libera l'array degli argomenti
+		}
 	}
+	if (env)
+	{
+		int i = 0;
+		while (env[i])
+		{
+			free(env[i]); // Libera ogni stringa nell'ambiente
+			i++;
+		}
+		free(env); // Libera l'array di puntatori
+	}
+	free_env(env);
+
 	return (0);
 }
+
