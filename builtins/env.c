@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:37:24 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/21 19:40:30 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:51:50 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,5 @@
 
 void	ft_env(char **env)
 {
-	int	i;
-
-	i = 0;
 	print_env(env);
 }

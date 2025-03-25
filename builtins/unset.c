@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:37:04 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/21 21:16:18 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:04:33 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_unset(char **args, char ***env)
 
 	new_env[j] = NULL;
 
-	free_env(*env);
+	free_env(env);
 
 	*env = new_env;
 }

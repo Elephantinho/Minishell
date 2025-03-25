@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/22 20:31:15 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:02:39 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**ft_addenv(char *name, char *value, char ***env);
 char	*ft_getenv(char *name, char **env);
 void	ft_setenv(char *name, char *value, char ***env);
 void	print_env(char **env);
-void	free_env(char **env);
+void	free_env(char ***env);
 int		ft_env_size(char **env);
 
 //cd

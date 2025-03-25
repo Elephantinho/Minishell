@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:07 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/22 21:13:18 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:02:15 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(env); // Libera l'array di puntatori
 	} */
-	free_env(env);
+	free_env(&env);
 
 	return (0);
 }
