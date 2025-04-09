@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:07 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/22 21:13:18 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/04/09 09:43:05 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+void	handle_pipes_or_execute(char *cmd_line, char ***env)
+{
+	if (pipe_check(cmd_line))
+	{
+		// Se c'è una pipe, esegui la pipeline
+		execute_pipeline(cmd_line, env);
+	}
+	else
+	{
+		// Se non c'è pipe, esegui il comando normale
+		execute(cmd_line, env);
+	}
+}
+
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -33,6 +48,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!s)
 			break; // Uscita se l'utente digita EOF (Ctrl+D)
 		add_history(s);
+		handle_pipes_or_execute(s, &env);
 		args = ft_split(s, ' ');
 		if (ft_strncmp(args[0], "export", 6) == 0)
 			ft_export(args, &env);

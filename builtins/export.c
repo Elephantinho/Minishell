@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:48:25 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/22 20:54:56 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/04/09 09:58:16 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,40 @@ void	ft_export(char **args, char ***env)
 		}
 	}
 }
+
+int	verify(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !*str)
+		return (0);
+	if (ft_isdigit(str[0]))
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	verify_only_equal(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !*str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+
 

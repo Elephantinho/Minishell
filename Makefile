@@ -14,6 +14,9 @@ SRC = main.c \
 		builtins/ft_pwd.c \
 		builtins/export.c \
 		builtins/unset.c \
+		pipe/execve.c \
+		pipe/path.c \
+		pipe/pipe.c \
 
 OBJ = $(SRC:.c=.o)
 all: $(NAME)
