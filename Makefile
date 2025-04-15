@@ -17,6 +17,11 @@ SRC = main.c \
 		pipe/execve.c \
 		pipe/path.c \
 		pipe/pipe.c \
+		parsing/prova.c \
+		parsing/check_ambig_redirect.c \
+		parsing/parsing_list.c \
+		parsing/init_token.c \
+		parsing/expand_dollar.c \
 
 OBJ = $(SRC:.c=.o)
 all: $(NAME)
