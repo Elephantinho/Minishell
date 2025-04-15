@@ -30,46 +30,69 @@ void	handle_pipes_or_execute(char *cmd_line, char ***env)
 	}
 }
 
+void parsing(char *s, char **env, t_token **tokens)
+{
+	int	*arr;
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		perror("fork failed");//non so se va bene come errore
+	if (pid == 0)
+	{
+		arr = create_arr(s, env);
+		*tokens = separete_in_tokens(s, arr);
+		ft_lstiter_tok(*tokens , prnt);
+		free(arr);
+		free (s);
+		check_ambig_redirect(tokens, env);
+		expand_dollar(tokens, env);
+		printf("\n");
+		ft_lstiter_tok(*tokens , prnt);
+		ft_lstclear_tok(tokens);
+	}
+	else
+	{
+		free(s);
+		waitpid(pid, &error_code, 0);
+	}
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
 
-	char	**env;
-	char	**args;
-	char	*s;
+	char		**env;
+	char		**args;
+	char		*s;
+	int		shlvl;
+	t_token		*tokens;
 
 	env = copy_env(envp);
-	while (1)
+	error_code = 0;
+	if (ft_getenv("SHLVL", env))
+	{
+		shlvl = ft_atoi(ft_getenv("SHLVL", env)) + 1;
+		s = ft_itoa(shlvl);
+		ft_setenv("SHLVL", s, &env);
+		free(s);
+		/* s = ft_getenv("SHLVL", env);
+		printf("shlvl: %s\n", s); */
+	}
+	//while (1)
 	{
 		// Leggi la riga di input
-		s = readline("minishell ");
+		/* s = readline("minishell ");
 		if (!s)
 			break; // Uscita se l'utente digita EOF (Ctrl+D)
-		add_history(s);
-
-	/* //s = "\"\" ahaha \" ohohoh\'ehe\'\"\"  iii\"\"\"ahah\'\"ww\'\'\' |   ";
+		add_history(s); */
 		s = get_next_line(0);
-		arr = create_arr(s);
-		//da qui vanno nel fork i sa e s va liberata fuori dal fork
-		tokens = separete_in_tokens(s, arr);
-		free(arr);
-		free (s);
-		check_ambig_redirect(&tokens, env);
-		expand_dollar(&tokens, env);
-		//printf("(%s)\n", s);
-		// for(int i = 0; i < ft_strlen(s) - 1; i++)
-		//	printf("%d", arr[i]);
-		printf("\n");
-		ft_lstiter_tok(tokens , prnt);
-		ft_lstclear_tok(&tokens);
-	//	free(arr);
-	//	free(s); */
+		parsing(s, env, &tokens)
 
 		
-		handle_pipes_or_execute(s, &env);
-		args = ft_split(s, ' ');
+		//handle_pipes_or_execute(s, &env);
+		/* args = ft_split(s, ' ');
 		if (ft_strncmp(args[0], "export", 6) == 0)
 			ft_export(args, &env);
 		if (ft_strncmp(args[0], "cd", 2) == 0)
@@ -90,7 +113,7 @@ int	main(int argc, char **argv, char **envp)
 				i++;
 			}
 			free(args); // Libera l'array degli argomenti
-		}
+		} */
 	}
 	/* if (env)
 	{
