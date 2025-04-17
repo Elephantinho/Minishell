@@ -131,7 +131,7 @@ int	main(int argc, char **argv, char **envp)
 		free(env); // Libera l'array di puntatori
 	} */
 	free_env(env);
-
+//METTERE EXIT CON L'ULTIMO EXIT CODE tipo exit(error_code);
 	return (0);
 }
 
