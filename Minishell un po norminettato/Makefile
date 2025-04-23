@@ -26,6 +26,7 @@ SRC = main.c \
 		parsing/tk_division_big_while.c \
 		parsing/tk_division_big_while_h.c \
 		parsing/tokens_division.c \
+		redirections/cazzate_da_guardare.c \
 	#	pipe/execve.c \
 	#	pipe/path.c \
 		pipe/pipe.c \#

@@ -6,7 +6,7 @@
 /*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/04/23 11:18:27 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:31:17 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,8 @@ int		count_n_of_matrx(t_token *token);
 int		count_n_of_lines(t_token *tokens);
 void	arr_of_matrx_central_while(t_token **tokens, char ****arr_of_matrx, int *i, int *j);
 char	***create_array_of_matrix(t_token *tokens);
+
+// execute
+
 
 #endif
