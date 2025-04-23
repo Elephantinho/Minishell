@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/04/21 03:49:40 by ale              ###   ########.fr       */
+/*   Updated: 2025/04/23 11:18:27 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 
 extern int	error_code;
 
