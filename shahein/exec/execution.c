@@ -54,7 +54,7 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
 	}
 	free_cmnds(cmnds);//credo ma non sono sicuro ci vada
 	cmnds = NULL;//forse non serve
-	printf("quii\n");
+	//printf("quii\n");
 	return (cmnds);
 }
 
@@ -106,7 +106,7 @@ void	ft_execution(t_token **tokens, char ***env, int *status)
 				}
 				// Esegui il comando
 				built_in_or_execute(env, &tokens[count], status);
-				printf("status11: %d", *status);
+				//printf("status11: %d", *status);
 				exit(*status);
 			}
 			else  // Codice eseguito dal processo padre
