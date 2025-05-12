@@ -6,7 +6,7 @@
 /*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 21:45:16 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/10 17:49:17 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:40:41 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,12 @@ void	execute_mod(char **cmds, char ***env, int *exit_code)
 	path = find_path(cmds[0], env, exit_code);
 	if (!path)
 	{
-		//free_paths(cmds);
-	//	ft_error("Command execution failed");//magari mettere no path foundcome mess err invece o non serve perche gia lo scrive prima senon trova path(?)
 		return ;
 	}
-	/*int pid;
-	 pid = fork();
-	if (pid == -1)
-		perror("fork failed");//non so se va bene come errore
-	if (pid == 0)
-	{ */
+
 		execve(path, cmds, *env);
 		perror("Execve failed in execute");
 		free(path);
-		//free_paths(cmds);
-	/* }
-	else */
-		/* waitpid(pid, exit_code, 0);
-	free(path); */
-//	printf("exit, code; %d\n", *exit_code);
 }
 
 char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
@@ -73,95 +60,73 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
 
 void	ft_execution(t_token **tokens, char ***env)
 {
-	int		i;
-	int		count;
+	int		i = 0;
+	int		count = 0;
 	int		cpipe[2];
-	int		prevpipe;
-	pid_t	pid;
-	int		status;
-	int		fd_in;
-	int		fd_out;
+	int		prevpipe = -1;
+	int		fd_in = -1;
+	int		fd_out = -1;
+	pid_t	pids[256];
+	int		status = 0;
 
-	fd_in = -1;
-	fd_out = -1;
-	// Conta quanti comandi ci sono nella lista dei token
-	i = 0;
-	count = 0;
-	while (tokens[i])
+	while (tokens[count]) // Ciclo per eseguire ogni comando
 	{
-		if (tokens[i] && ft_isalpha(tokens[i]->token[0]))
-			count++;
-		i++;
-	}
-
-	// Esecuzione dei comandi in pipeline
-	i = 0;
-	prevpipe = -1;
-	while (i < count)
-	{
-		// Crea una pipe solo se NON siamo sull'ultimo comando
-		if (i != count - 1)
+		if (tokens[count]->e_tk_type == 0) // Se è un comando
 		{
-			if (pipe(cpipe) == -1)
+			// Crea una pipe se non è l'ultimo comando
+			if (tokens[count + 1])
 			{
-				perror("Minishell: error: pipe");
+				if (pipe(cpipe) == -1)
+				{
+					perror("Minishell: pipe");
+					exit(1);
+				}
+			}
+			pids[i] = fork(); // Crea il processo figlio
+			if (pids[i] == -1)
+			{
+				perror("Minishell: fork");
 				exit(1);
 			}
-		}
-
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("Minishell: error: fork");
-			exit(1);
-		}
-
-		if (pid == 0)  // CODICE FIGLIO
-		{
-			//gestione delle redirezioni
-			handle_redirections(&tokens[i], &fd_in, &fd_out);
-			// Se NON è il primo comando, collega stdin al pipe precedente
-			if (i != 0)
+			if (pids[i] == 0)
 			{
-				if (dup2(prevpipe, 0) == -1)
+				handle_redirections(&tokens[count], &fd_in, &fd_out);
+				if (prevpipe != -1)
 				{
-					perror("Minishell: error: dup2");
-					exit(1);
+					dup2(prevpipe, STDIN_FILENO);
+					close(prevpipe);
 				}
-				close(prevpipe);
-			}
-			// Se NON è l'ultimo comando, collega stdout al pipe attuale
-			if (i != count - 1)
-			{
-				close(cpipe[0]);  // Chiudi lettura
-				if (dup2(cpipe[1], 1) == -1)
+				// Se non è l'ultimo comando, collega stdout alla pipe attuale
+				if (tokens[count + 1])
 				{
-					perror("Minishell: error: dup2");
-					exit(1);
+					close(cpipe[0]);
+					dup2(cpipe[1], STDOUT_FILENO);
+					close(cpipe[1]);
 				}
-				close(cpipe[1]);
+				// Esegui il comando
+				built_in_or_execute(env, &tokens[count], &status);
+				exit(status);
 			}
-
-			// Esegui il comando
-			if (tokens[i])
-				built_in_or_execute(env, &tokens[i], &status);
-			exit(0); // da mettere exit code
-		}
-		else  // CODICE PADRE
-		{
-			// Se NON è il primo comando, chiudi il pipe precedente
-			if (i != 0)
-				close(prevpipe);
-			// Se NON è l'ultimo comando, salva la lettura della pipe per il prossimo giro
-			if (i != count - 1)
+			else  // Codice eseguito dal processo padre
 			{
-				close(cpipe[1]);  // Chiudi scrittura
-				prevpipe = cpipe[0];  // Salva lettura per il prossimo comando
+				// Chiudi la pipe precedente se non è più necessaria
+				if (prevpipe != -1)
+					close(prevpipe);
+
+				// Se ci sono più comandi, salva la pipe per il prossimo comando
+				if (tokens[count + 1])
+				{
+					prevpipe = cpipe[0];
+					close(cpipe[1]);
+				}
 			}
-			// Aspetta il figlio
-			waitpid(pid, &status, 0);
+			i++;
 		}
-		i++;
+		count++;
 	}
+	// Aspetta la fine di tutti i figli
+	for (int j = 0; j < i; j++)
+		waitpid(pids[j], &status, 0);
 }
+
 
