@@ -233,7 +233,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (token_list[1] == NULL)
 				built_in_or_execute_no_pipes(&env, token_list, &exit_code, s);
-			ft_execution(token_list, &env, &exit_code);
+			else
+				ft_execution(token_list, &env, &exit_code);
 		}
 	/* 	cmnds = built_in_or_execute(s, &env, &tokens, &exit_code);
 		if (s)
