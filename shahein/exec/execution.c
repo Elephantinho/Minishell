@@ -23,10 +23,9 @@ void	execute_mod(char **cmds, char ***env, int *exit_code)
 	{
 		return ;
 	}
-
-		execve(path, cmds, *env);
-		perror("Execve failed in execute");
-		free(path);
+	execve(path, cmds, *env);
+	perror("Execve failed in execute");
+	free(path);
 }
 
 char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
@@ -48,6 +47,8 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
 				ft_unset(cmnds, env);
 			else if ((ft_strncmp(cmnds[0], "echo", 4) == 0) && cmnds[0][4] == '\0')
 				ft_echo(&(cmnds[1]));
+			else if ((ft_strncmp(cmnds[0], "exit", 4) == 0) && cmnds[0][4] == '\0')
+				ft_exit(&cmnds, NULL, *env, exit_code);//non so se c'e ancora s da liberare
 			else
 				execute_mod(cmnds, env, exit_code);
 	}
@@ -58,7 +59,7 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
 }
 
 
-void	ft_execution(t_token **tokens, char ***env)
+void	ft_execution(t_token **tokens, char ***env, int *status)
 {
 	int		i = 0;
 	int		count = 0;
@@ -67,7 +68,7 @@ void	ft_execution(t_token **tokens, char ***env)
 	int		fd_in = -1;
 	int		fd_out = -1;
 	pid_t	pids[256];
-	int		status = 0;
+	int		j;
 
 	while (tokens[count]) // Ciclo per eseguire ogni comando
 	{
@@ -78,14 +79,14 @@ void	ft_execution(t_token **tokens, char ***env)
 			{
 				if (pipe(cpipe) == -1)
 				{
-					perror("Minishell: pipe");
+					perror("Minishell: pipe error");
 					exit(1);
 				}
 			}
 			pids[i] = fork(); // Crea il processo figlio
 			if (pids[i] == -1)
 			{
-				perror("Minishell: fork");
+				perror("Minishell: fork error");
 				exit(1);
 			}
 			if (pids[i] == 0)
@@ -104,8 +105,9 @@ void	ft_execution(t_token **tokens, char ***env)
 					close(cpipe[1]);
 				}
 				// Esegui il comando
-				built_in_or_execute(env, &tokens[count], &status);
-				exit(status);
+				built_in_or_execute(env, &tokens[count], status);
+				printf("status11: %d", *status);
+				exit(*status);
 			}
 			else  // Codice eseguito dal processo padre
 			{
@@ -125,8 +127,11 @@ void	ft_execution(t_token **tokens, char ***env)
 		count++;
 	}
 	// Aspetta la fine di tutti i figli
-	for (int j = 0; j < i; j++)
-		waitpid(pids[j], &status, 0);
+	j = 0;
+	while (j < i)
+	{
+		waitpid(pids[j], status, 0);
+		j++;
+	}
 }
-
 
