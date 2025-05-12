@@ -219,7 +219,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		// Leggi la riga di input
 		s = readline("minishell ");
-		s = get_next_line(0);
+		//s = get_next_line(0);
 		//printf("s: (%s)", s);
 	 	if (!s)
 		{
