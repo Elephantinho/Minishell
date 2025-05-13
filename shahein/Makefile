@@ -2,7 +2,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 LDREADFLAG = -lreadline
 NAME = minishell
-VALGRIND = valgrind --suppressions=$(SUP_FILE_ABS) --leak-check=full --show-leak-kinds=all \
+VALGRIND = valgrind --suppressions=valgrind.supp --leak-check=full --show-leak-kinds=all \
 			--track-origins=yes --track-fds=yes --trace-children=yes
 
 SRC = main.c \
@@ -42,8 +42,6 @@ SRC = main.c \
 		#	parsing/create_arr_of_matrix.c \#
 
 OBJ = $(SRC:.c=.o)
-SUP_FILE_ABS = $(shell pwd)/$(SUP_FILE)
-SUP_FILE = valgrind.supp
 all: $(NAME)
 
 $(NAME): includes/libft/libft.a $(OBJ)
@@ -57,7 +55,7 @@ fclean: clean
 	rm -f $(NAME)
 	@make -C includes/libft fclean --quiet
 
-vall: $(NAME)
+val: $(NAME)
 	@echo "Using Valgrind..."
 	@$(VALGRIND) ./$(NAME)
 
