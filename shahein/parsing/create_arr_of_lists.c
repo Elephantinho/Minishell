@@ -44,8 +44,11 @@ void	arr_of_lists_h(t_token **tokens, t_token **first, \
 	{
 		(*arr_of_lists)[*i] = (*first);
 		prev->next = NULL;
+		prev = (*tokens);
 		(*tokens) = (*tokens)->next;
-		if ((*tokens))
+		free(prev->token);//credo ci vadano sti 2 free
+		free(prev);
+		if ((*tokens))//if forse non serve(mafunziona) ((*first) = (*tokens); serve pero solo l'if forse e' inutile)
 			(*first) = (*tokens);
 	}
 	else if (!(*tokens))
