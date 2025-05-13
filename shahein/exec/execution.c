@@ -68,7 +68,7 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
 			else if ((ft_strncmp(cmnds[0], "echo", 4) == 0) && cmnds[0][4] == '\0')
 				ft_echo(&(cmnds[1]));
 			else if ((ft_strncmp(cmnds[0], "exit", 4) == 0) && cmnds[0][4] == '\0')
-				ft_exit(&cmnds, s, *env, exit_code);//non so se c'e ancora s da liberare
+				ft_exit(&cmnds, NULL, *env, exit_code);//non so se c'e ancora s da liberare
 			else
 				execute_mod(cmnds, env, exit_code);
 			printf("hi\n");
