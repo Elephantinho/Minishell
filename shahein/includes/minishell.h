@@ -6,7 +6,7 @@
 /*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/13 18:22:25 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:35:14 by ade-ross         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ t_token	**create_arr_of_lists(char *s, char **env, t_token **tokens);
 
 //redirections
 int		handle_heredoc(char *limiter);
+void	handle_heredocs(t_token **tokens);
 void	remove_redir_tokens(t_token **tokens, t_token *prev, t_token *curr);
 void	handle_redirections(t_token **tokens, int *fd_in, int *fd_out);
 

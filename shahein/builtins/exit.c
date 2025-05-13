@@ -16,7 +16,7 @@ void	free_for_exit(char ***args, char *s, char **env)
 {
 	if (s)
 		free(s);
-	free_cmnds(*args);
+	free_cmnds(args);
 	free_env(env);
 }
 

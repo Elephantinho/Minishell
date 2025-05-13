@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 21:45:16 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/13 18:33:16 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:38:43 by ade-ross         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
 {
 	char	**cmnds;
 
-	cmnds = create_matrix(tokens, tokens, &cmnds);
+	cmnds = create_matrix_and_free_arr_of_lists(tokens, tokens, &cmnds);
 	printf("hooo\n");
 	print_matrix(cmnds);
 	if (cmnds)
@@ -67,19 +67,21 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
 				ft_unset(cmnds, env);
 			else if ((ft_strncmp(cmnds[0], "echo", 4) == 0) && cmnds[0][4] == '\0')
 				ft_echo(&(cmnds[1]));
+			else if ((ft_strncmp(cmnds[0], "exit", 4) == 0) && cmnds[0][4] == '\0')
+				ft_exit(&cmnds, s, *env, exit_code);//non so se c'e ancora s da liberare
 			else
 				execute_mod(cmnds, env, exit_code);
 			printf("hi\n");
 			print_matrix(cmnds);
 	}
-	free_cmnds(cmnds);//credo ma non sono sicuro ci vada
+	free_cmnds(&cmnds);//credo ma non sono sicuro ci vada
 	cmnds = NULL;//forse non serve
 	printf("quii\n");
 	return (cmnds);
 }
 
 
-void	ft_execution(t_token **tokens, char ***env)
+void	ft_execution(t_token **tokens, char ***env, int *status)
 {
 	int		i = 0;
 	int		count = 0;
@@ -88,7 +90,6 @@ void	ft_execution(t_token **tokens, char ***env)
 	int		fd_in = -1;
 	int		fd_out = -1;
 	pid_t	pids[256];
-	int		status = 0;
 
 	while (tokens[count]) // Ciclo per eseguire ogni comando
 	{
@@ -126,8 +127,8 @@ void	ft_execution(t_token **tokens, char ***env)
 				// Esegui il comando
 				handle_heredocs(&tokens[count]);
 				handle_redirections(&tokens[count], &fd_in, &fd_out);
-				built_in_or_execute(env, &tokens[count], &status);
-				exit(status);
+				built_in_or_execute(env, &tokens[count], status);
+				exit(*status);
 			}
 			else  // Codice eseguito dal processo padre
 			{
@@ -148,7 +149,7 @@ void	ft_execution(t_token **tokens, char ***env)
 	}
 	// Aspetta la fine di tutti i figli
 	for (int j = 0; j < i; j++)
-		waitpid(pids[j], &status, 0);
+		waitpid(pids[j], status, 0);
 }
 
 
