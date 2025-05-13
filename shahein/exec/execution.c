@@ -6,7 +6,7 @@
 /*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 21:45:16 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/13 20:38:43 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/13 22:05:31 by ade-ross         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,15 @@ void	execute_mod(char **cmds, char ***env, int *exit_code)
 	path = find_path(cmds[0], env, exit_code);
 	if (!path)
 	{
+		free_cmnds(&cmds);
+		free_env(*env);
+		exit (*exit_code);
 		return ;
 	}
-
-		execve(path, cmds, *env);
-		perror("Execve failed in execute");
-		free(path);
+	execve(path, cmds, *env);
+	perror("Minishell: Execve failed in execute");
+	free(path);
+	free_cmnds(&cmds);
 }
 
 char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
@@ -93,7 +96,7 @@ void	ft_execution(t_token **tokens, char ***env, int *status)
 
 	while (tokens[count]) // Ciclo per eseguire ogni comando
 	{
-		if (tokens[count]->e_tk_type == 0) // Se è un comando
+		if (tokens[count]->e_tk_type == 0) // Se è un comando da mettere anche se e' un redirect(?)
 		{
 			// Crea una pipe se non è l'ultimo comando
 			if (tokens[count + 1])
@@ -147,8 +150,17 @@ void	ft_execution(t_token **tokens, char ***env, int *status)
 		}
 		count++;
 	}
+	int j;
+	j = 0;
+	while(tokens[j])
+	{
+		free((tokens[j])->token);
+		free(tokens[j]);
+		j++;
+	}
+	free(tokens);
 	// Aspetta la fine di tutti i figli
-	for (int j = 0; j < i; j++)
+	for (j = 0; j < i; j++)
 		waitpid(pids[j], status, 0);
 }
 
