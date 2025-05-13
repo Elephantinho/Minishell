@@ -6,7 +6,7 @@
 /*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/12 18:55:25 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:22:25 by ade-ross         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,9 @@ int		arr_of_matrx_h(t_token **tokens, t_token **first, \
 char	***create_array_of_matrix(char *s, char **env, t_token *tokens); */
 
 //free_vari
+//void	ft_lstclear_mod_arr_lst(t_token **lst);
 void	ft_lstclear_tok_mod(t_token **lst);
-void	free_cmnds(char **cmnds);
+void	free_cmnds(char ***cmnds);
 /* void	arr_of_matrx_h_free(t_token **tokens, t_token **first, \
 											char ****arr_of_matrx);
 void	arr_of_matrx_free(char *s, char **env); */
@@ -170,7 +171,7 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code);
 
 //execution without pipe
 char	**built_in_or_execute_no_pipes(char ***env, t_token **tokens, int *exit_code, char *s);
-void	execute_mod_no_pipes_case(char **cmds, char ***env, int *exit_code);
+void	execute_mod_no_pipes_case(char ***cmds, char ***env, int *exit_code, t_token **tokens);
 
 //pipe
 char	*find_path(char *cmd, char ***env, int *exit_code);
@@ -184,5 +185,5 @@ t_token	**parsing(char *s, char ***env, t_token **tokens, int *exit_code_pars);
 
 //create_matrix
 
-char **create_matrix(t_token **tokens, t_token **first, char ***arr_of_matrx);
+char **create_matrix_and_free_arr_of_lists(t_token **tokens, t_token **first, char ***arr_of_matrx);
 #endif
