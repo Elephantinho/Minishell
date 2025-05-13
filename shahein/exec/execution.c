@@ -6,11 +6,28 @@
 /*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 21:45:16 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/12 18:40:41 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:33:16 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	print_matrix(char **matrix)
+{
+	int	i = 0;
+
+	if (!matrix)
+	{
+		printf("Matrix is NULL\n");
+		return;
+	}
+
+	while (matrix[i])
+	{
+		printf("matrix[%d] = \"%s\"\n", i, matrix[i]);
+		i++;
+	}
+}
 
 void	execute_mod(char **cmds, char ***env, int *exit_code)
 {
@@ -23,9 +40,10 @@ void	execute_mod(char **cmds, char ***env, int *exit_code)
 	{
 		return ;
 	}
-	execve(path, cmds, *env);
-	perror("Execve failed in execute");
-	free(path);
+
+		execve(path, cmds, *env);
+		perror("Execve failed in execute");
+		free(path);
 }
 
 char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
@@ -33,6 +51,8 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
 	char	**cmnds;
 
 	cmnds = create_matrix(tokens, tokens, &cmnds);
+	printf("hooo\n");
+	print_matrix(cmnds);
 	if (cmnds)
 	{
 			if ((ft_strncmp(cmnds[0], "export", 6) == 0) && cmnds[0][6] == '\0')
@@ -47,19 +67,19 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code)
 				ft_unset(cmnds, env);
 			else if ((ft_strncmp(cmnds[0], "echo", 4) == 0) && cmnds[0][4] == '\0')
 				ft_echo(&(cmnds[1]));
-			else if ((ft_strncmp(cmnds[0], "exit", 4) == 0) && cmnds[0][4] == '\0')
-				ft_exit(&cmnds, NULL, *env, exit_code);//non so se c'e ancora s da liberare
 			else
 				execute_mod(cmnds, env, exit_code);
+			printf("hi\n");
+			print_matrix(cmnds);
 	}
 	free_cmnds(cmnds);//credo ma non sono sicuro ci vada
 	cmnds = NULL;//forse non serve
-	//printf("quii\n");
+	printf("quii\n");
 	return (cmnds);
 }
 
 
-void	ft_execution(t_token **tokens, char ***env, int *status)
+void	ft_execution(t_token **tokens, char ***env)
 {
 	int		i = 0;
 	int		count = 0;
@@ -68,7 +88,7 @@ void	ft_execution(t_token **tokens, char ***env, int *status)
 	int		fd_in = -1;
 	int		fd_out = -1;
 	pid_t	pids[256];
-	int		j;
+	int		status = 0;
 
 	while (tokens[count]) // Ciclo per eseguire ogni comando
 	{
@@ -79,19 +99,18 @@ void	ft_execution(t_token **tokens, char ***env, int *status)
 			{
 				if (pipe(cpipe) == -1)
 				{
-					perror("Minishell: pipe error");
+					perror("Minishell: pipe");
 					exit(1);
 				}
 			}
 			pids[i] = fork(); // Crea il processo figlio
 			if (pids[i] == -1)
 			{
-				perror("Minishell: fork error");
+				perror("Minishell: fork");
 				exit(1);
 			}
 			if (pids[i] == 0)
 			{
-				handle_redirections(&tokens[count], &fd_in, &fd_out);
 				if (prevpipe != -1)
 				{
 					dup2(prevpipe, STDIN_FILENO);
@@ -105,9 +124,10 @@ void	ft_execution(t_token **tokens, char ***env, int *status)
 					close(cpipe[1]);
 				}
 				// Esegui il comando
-				built_in_or_execute(env, &tokens[count], status);
-				//printf("status11: %d", *status);
-				exit(*status);
+				handle_heredocs(&tokens[count]);
+				handle_redirections(&tokens[count], &fd_in, &fd_out);
+				built_in_or_execute(env, &tokens[count], &status);
+				exit(status);
 			}
 			else  // Codice eseguito dal processo padre
 			{
@@ -127,11 +147,8 @@ void	ft_execution(t_token **tokens, char ***env, int *status)
 		count++;
 	}
 	// Aspetta la fine di tutti i figli
-	j = 0;
-	while (j < i)
-	{
-		waitpid(pids[j], status, 0);
-		j++;
-	}
+	for (int j = 0; j < i; j++)
+		waitpid(pids[j], &status, 0);
 }
+
 
