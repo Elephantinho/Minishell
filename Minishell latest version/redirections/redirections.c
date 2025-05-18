@@ -72,7 +72,6 @@ int	handle_heredocs(t_token **tokens, int *fd, char **env)
 	//int		save_fd_in;
 	//save_fd_in = dup(STDIN_FILENO);
 
-	*fd = 0;
 	heredoc_done = 0;
 	while (curr)
 	{
