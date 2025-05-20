@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 21:45:16 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/20 20:34:44 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/20 23:26:33 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,13 @@ void	execute_mod(char **cmds, char ***env, int *exit_code, int save_fd_in)
 	path = find_path(cmds[0], env, exit_code);
 	if (!path)
 	{
+		if (save_fd_in != STDIN_FILENO)
+			close(save_fd_in); //vediamo se serve qui
 		return ;
 	}
-	close(save_fd_in);
 	execve(path, cmds, *env);
+	if (save_fd_in != STDIN_FILENO)
+		close(save_fd_in); //vediamo se serve qui
 	perror("Minishell: Execve failed in execute");
 	free(path);
 	free_cmnds(&cmds);
@@ -91,6 +94,9 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code, int or
 	//close(save_fd_in);//giusto qua? va anche dentro execute mod forse
 //	dup2(save_fd_out, STDOUT_FILENO);
 	//printf("quii\n");
+	dup2(save_fd_in, STDIN_FILENO);
+	close(save_fd_in);
+
 	return (cmnds);
 }
 
@@ -207,11 +213,11 @@ void	ft_execution(t_token **arr_of_lists, char ***env, int *status)
 					}
 					z++;
 				}
-				if (prevpipe != -1 || heredoc_alredy_done == 1)
+			/* 	if (prevpipe != -1 || heredoc_alredy_done == 1)
 				{
 					dup2(prevpipe, STDIN_FILENO);
 					close(prevpipe);
-				}
+				} */
 				// Se non è l'ultimo comando, collega stdout alla pipe attuale
 				if (arr_of_lists[count + 1])
 				{
@@ -312,6 +318,14 @@ void	ft_execution(t_token **arr_of_lists, char ***env, int *status)
 	t_token *temp;
 	t_token *temp2;
 	//printf("first[j]: %s", first[j]->token);
+	for(int k = 0; k < 256; k++)
+	{
+		if (heredoc_pipes[1][k] == 1)
+		{
+			close(heredoc_pipes[0][k]);
+			//printf("process : %d, waaaaaaaaaaaaaaaaaa\n", count);
+		}
+	}
 	while(first[j])
 	{
 		temp = first[j];

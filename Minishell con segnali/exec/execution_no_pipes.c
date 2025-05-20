@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_no_pipes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:13:56 by ade-ross          #+#    #+#             */
-/*   Updated: 2025/05/19 23:21:53 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:12:36 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	execute_mod_no_pipes_case(char ***cmds, char ***env, int *exit_code)
+void	execute_mod_no_pipes_case(char ***cmds, char ***env, int *exit_code, int fd_in, int fd_out)
 {
 	char	*path;
 	int pid;
@@ -28,6 +28,10 @@ void	execute_mod_no_pipes_case(char ***cmds, char ***env, int *exit_code)
 		path = find_path((*cmds)[0], env, exit_code);
 		if (!path)
 		{
+			if(fd_in != STDIN_FILENO)
+				close(fd_in);
+			if(fd_out != STDOUT_FILENO)
+				close(fd_out);
 			//ft_lstclear_mod_arr_lst(tokens);
 			free_cmnds(cmds);
 			free_env(*env);
@@ -110,7 +114,7 @@ char	**built_in_or_execute_no_pipes(char ***env, t_token **tokens, int *exit_cod
 			else if ((ft_strncmp(cmnds[0], "exit", 4) == 0) && cmnds[0][4] == '\0')
 				ft_exit(&cmnds, s, *env, exit_code);//non so se c'e ancora s da liberare
 			else
-				execute_mod_no_pipes_case(&cmnds, env, exit_code);//in questo caso bisogna passare save fd in e chiuderlo dentro mi sa
+				execute_mod_no_pipes_case(&cmnds, env, exit_code, save_fd_in, save_fd_out);//in questo caso bisogna passare save fd in e chiuderlo dentro mi sa
 	}
 	free_cmnds(&cmnds);//credo ma non sono sicuro ci vada
 	//if (heredoc_alredy_done == 1)

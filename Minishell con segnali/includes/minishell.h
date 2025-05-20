@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/19 22:25:47 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/20 23:26:48 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 extern int g_exit_status;
 
@@ -77,6 +78,16 @@ void	ft_pwd(void);
 void	free_for_exit(char ***args, char *s, char **env);
 int		check_if_arg_of_exit_is_numeric(char ***args, char *s, char **env, int j);
 void	ft_exit(char ***args, char *s, char **env, int *exit_code);
+
+//export
+int		verify(char *str);
+char	*form_str(char *str);
+void	swap(char **a, char **b);
+void	sort_env(char **env);
+char	**ft_copy_matrix(char **env);
+void	free_mat(char **mat);
+void	print_export(char **env);
+void	ft_export(char **args, char ***env);
 
 //check ambig redirection
 void	check_ambig_redirect(t_token **tokens, char **env);
@@ -171,7 +182,7 @@ char	**built_in_or_execute(char ***env, t_token **tokens, int *exit_code, int or
 
 //execution without pipe
 char	**built_in_or_execute_no_pipes(char ***env, t_token **tokens, int *exit_code, char *s);
-void	execute_mod_no_pipes_case(char ***cmds, char ***env, int *exit_code);
+void	execute_mod_no_pipes_case(char ***cmds, char ***env, int *exit_code, int fd_in, int fd_out);
 
 //pipe
 char	*find_path(char *cmd, char ***env, int *exit_code);
@@ -180,6 +191,7 @@ void	free_paths(char **paths);
 char	*build_path(char *dir, char *cmd, int *exit_code);
 char	**get_paths_from_env(char ***env, char *cmd, int *exit_code);
 char	*find_command_in_paths(char *cmd, char **paths, int *exit_code);
+int		is_directory(char *path);
 
 t_token	**parsing(char *s, char ***env, t_token **tokens, int *exit_code_pars);
 
