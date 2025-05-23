@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_set_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:12:05 by mshahein          #+#    #+#             */
-/*   Updated: 2025/04/20 23:45:17 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/23 17:28:36 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,16 @@ void	ft_setenv(char *name, char *value, char ***env)
 		if (!ft_strncmp((*env)[i], name, len) && (*env)[i][len] == '=')
 		{
 			free((*env)[i]);
-			new_env = ft_strjoin(name, "=");
-			temp = new_env;
-			new_env = ft_strjoin(new_env, value);
-			free(temp);
-			(*env)[i] = new_env;
+			if (value == NULL)
+				new_env = ft_strdup(name);
+			else
+			{
+				temp = ft_strjoin(name, "=");
+				temp = new_env;
+				new_env = ft_strjoin(new_env, value);
+				free(temp);
+				(*env)[i] = new_env;
+			}
 			return ;
 		}
 		i++;

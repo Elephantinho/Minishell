@@ -6,7 +6,7 @@
 /*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:55:39 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/21 20:32:48 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:12:01 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ char	**copy_env(char **envp)
 
 void	print_env(char **env)
 {
-	int	i;
+	int		i = 0;
+	char	*equal_pos;
 
-	i = 0;
 	while (env[i])
 	{
-		ft_putendl_fd(env[i], 1);
+		equal_pos = ft_strchr(env[i], '=');
+		if (equal_pos && *(equal_pos + 1) != '\0')
+			ft_putendl_fd(env[i], 1);
 		i++;
 	}
 }

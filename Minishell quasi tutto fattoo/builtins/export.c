@@ -6,7 +6,7 @@
 /*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:48:25 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/20 22:07:44 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:32:03 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,27 +118,30 @@ void	free_mat(char **mat)
 void	print_export(char **env)
 {
 	int		i = 0;
-	char	*equal_pos;
+	int		j;
 	char	**copy = ft_copy_matrix(env);
 
 	if (!copy)
 		return ;
+
 	sort_env(copy);
+
 	while (copy[i])
 	{
-		write(1, "declare -x ", 12);
-		equal_pos = ft_strchr(copy[i], '=');
-		if (equal_pos)
+		write(1, "declare -x ", 11);
+		j = 0;
+		while (copy[i][j] != '\0' && copy[i][j] != '=')
+			j++;
+		if (copy[i][j] == '=')
 		{
-			int name_len = equal_pos - copy[i];
-			write(1, copy[i], name_len + 1); // VAR=
-			write(1, "\"", 1);
-			write(1, equal_pos + 1, ft_strlen(equal_pos + 1));
-			write(1, "\"\n", 2);
+			write(1, copy[i], j);// solo nome VAR
+			write(1, "=\"", 2);// apre valore
+			write(1, copy[i] + j + 1, ft_strlen(copy[i] + j + 1)); // valore
+			write(1, "\"\n", 2);// chiude valore
 		}
 		else
 		{
-			write(1, copy[i], ft_strlen(copy[i]));
+			write(1, copy[i], ft_strlen(copy[i])); // solo VAR
 			write(1, "\n", 1);
 		}
 		i++;
@@ -179,7 +182,7 @@ void	ft_export(char **args, char ***env)
 			else
 			{
 				if (!ft_getenv(args[i], *env))
-					ft_addenv(args[i], "", env);
+					ft_addenv(args[i], NULL, env);
 			}
 		}
 		else
