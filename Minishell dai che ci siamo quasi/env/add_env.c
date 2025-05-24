@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:57:16 by mshahein          #+#    #+#             */
-/*   Updated: 2025/04/21 03:31:22 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/24 19:46:17 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	**ft_addenv(char *name, char *value, char ***env)
 	while ((*env)[i])
 		i++;
 	new_env = (char **)malloc(sizeof(char *) * (i + 2));
+	if( !new_env)
+		return (NULL);
 	i = 0;
 	while ((*env)[i])
 	{

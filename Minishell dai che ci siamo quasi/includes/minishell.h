@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/23 21:49:28 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:25:25 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,24 @@ void	ft_pwd(void);
 void	free_for_exit(char ***args, char *s, char **env);
 int		check_if_arg_of_exit_is_numeric(char ***args, char *s, char **env, int j);
 void	ft_exit(char ***args, char *s, char **env, int *exit_code);
+
+
+//export
+int		verify(char *str);
+char	*form_str(char *str);
+void	swap(char **a, char **b);
+void	print_export(char **env);
+void	sort_env(char **env);
+char	**ft_copy_matrix(char **env);
+void	free_mat(char **mat);
+
+//unset
+int	is_valid_identifier(char *str);
+int	match_env_var(char *env_var, char *var_name);
+int	is_duplicate(char **args, int index);
+int	count_new_env_size(char **env, char **args);
+char	**build_new_env(char **env, char **args);
+void	print_invalid_identifiers(char **args);
 
 //check ambig redirection
 void	check_ambig_redirect(t_token **tokens, char **env);
