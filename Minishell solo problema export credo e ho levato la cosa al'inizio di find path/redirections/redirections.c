@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 12:15:56 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/25 18:47:51 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:41:37 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,11 +152,11 @@ int	handle_redirections(t_token **tokens, \
 {
 	t_token	*curr;
 	t_token	*prev;
-	t_token	**first;
+	//t_token	**first;
 	int		fd;
 
 	prev = NULL;
-	first = tokens;
+	//first = tokens;
 	update_heredoc_alredy_done(*tokens, heredoc_alredy_done);
 	free_heredoc_tokens(tokens);
 	curr = *tokens;

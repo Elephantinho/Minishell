@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:37:04 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/25 17:02:14 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:36:09 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,13 @@ int	is_duplicate(char **args, int index)
 int	should_remove_var(char *env_var, char **args)
 {
 	int	i;
-	int	len;
+	//int	len;
 
 	i = 1;
 	while (args[i])
 	{
 		if (is_valid_identifier(args[i]) && !is_duplicate(args, i))
 		{
-			len = ft_strlen(args[i]);
 			if (match_env_var(env_var, args[i]))
 				return (1);
 		}
@@ -138,7 +137,7 @@ void	print_invalid_identifiers(char **args)
 			j = 0;
 			while (args[i][j])
 				write(2, &args[i][j++], 1);
-			write(2, "`: not a valid identifier\n", 28);
+			write(2, "`: not a valid identifier\n", 27);
 		}
 		i++;
 	}

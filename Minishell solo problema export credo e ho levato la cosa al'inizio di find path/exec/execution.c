@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 21:45:16 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/24 22:28:30 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:40:40 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ void	init_t_exec(t_token **arr_of_lists, t_exec *st)
 	st->flag = 0;
 	st->prevpipe = -1;
 	st->first = arr_of_lists;
-	st->first2 = &arr_of_lists;
+	//st->first2 = &arr_of_lists;
 }
 
 void	upd_pipe_in_exec(t_token **arr_of_lists, t_exec *st)

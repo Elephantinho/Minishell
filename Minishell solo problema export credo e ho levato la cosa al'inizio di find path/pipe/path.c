@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:26:02 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/25 19:21:28 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:36:53 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ char	*find_command_in_paths(char *cmd, char **paths, int *exit_code)
 	write(2, cmd, ft_strlen(cmd));
 	if(cmd[0])
 		write(2, ": ", 2);
-	write(2, "Command not found\n", 20);
+	write(2, "Command not found\n", 19);
 	*exit_code = 127;
 	return (NULL);
 }
