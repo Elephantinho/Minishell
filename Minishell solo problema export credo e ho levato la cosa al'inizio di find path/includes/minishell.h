@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/25 19:38:26 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:44:43 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,12 +168,6 @@ void	first_fork_parsing(char *s, char **env);
 int		transl_exit_code(int exit_code);
 void	modify_exitcode(char ***env, int exit_code);
 
-/* //signal
-void	estat(int i);
-void	cntrl_c(int sig);
-void	signal_handler_heredoc(int sig); */
-
-//arr_of_lists
 int		count_n_of_lists(t_token *token);
 void	arr_of_lists_h(t_token **tokens, t_token **first, \
 							t_token ***arr_of_lists, int *i);
@@ -183,8 +177,18 @@ t_token	**create_arr_of_lists(char *s, t_token **tokens);
 int		handle_heredoc(char *limiter, char **env);
 int		handle_heredocs(t_token **tokens, int *fd, char **env);
 void	remove_redir_tokens(t_token **tokens, t_token *prev, t_token *curr);
-int		handle_redirections(t_token **tokens, int *heredoc_alredy_done, \
-															int *exit_code);
+int		handle_redirections(t_token **tokens, int *heredoc_alredy_done, int *exit_code);
+void	free_heredoc_tokens(t_token **tokens);
+void	update_heredoc_alredy_done(t_token *tokens, int *heredoc_alredy_done);
+int		sing_heredoc(t_token **curr, int *fd, char **env, int *heredoc_done);
+int		handle_heredocs(t_token **tokens, int *fd, char **env);
+void	print_heredoc_warning(char *limiter);
+int		should_stop_heredoc(char *line, char *limiter, int save_fd);
+void	write_expanded_line_to_pipe(char *line, char **env, int pipefd);
+int		handle_heredoc(char *limiter, char **env);
+int		open_and_dup_redir_fd(t_token *curr, int heredoc_already_done);
+int		print_redir_error(char *filename);
+int		handle_single_redirection(t_token **tokens, t_token **curr, t_token **prev, int *heredoc_done, int *exit_code);
 
 //execution
 void	execute_mod(char **cmds, char ***env, int *exit_code);

@@ -38,9 +38,10 @@ SRC = main.c \
 		exec/execution.c \
 		exec/execution_no_pipes.c \
 		redirections/redirections.c \
+		redirections/redirections_utils.c \
+		redirections/handle_heredoc.c \
 		create_matrix.c \
 		signals/signals.c \
-		#	parsing/create_arr_of_matrix.c \#
 
 OBJ = $(SRC:.c=.o)
 all: $(NAME)
