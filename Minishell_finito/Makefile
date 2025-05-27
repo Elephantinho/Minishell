@@ -37,7 +37,7 @@ SRC = main.c \
 		parsing_forks.c \
 		parsing_forks_h.c \
 		free_vari.c \
-		pipe/execve.c \
+		pipe/path2.c \
 		exec/execution.c \
 		exec/execution_no_pipes.c \
 		redirections/redirections.c \

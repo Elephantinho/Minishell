@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 21:31:52 by ale               #+#    #+#             */
-/*   Updated: 2025/05/24 21:37:51 by ade-ross         ###   ########.fr       */
+/*   Created: 2025/05/27 17:22:19 by mshahein          #+#    #+#             */
+/*   Updated: 2025/05/27 17:24:42 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft/libft.h"
-#include "../includes/libft/get_next_line_bonus.h"
+#ifndef PARSING_H
+# define PARSING_H
+
+# include "../includes/libft/libft.h"
+# include "../includes/libft/get_next_line_bonus.h"
 
 enum	e_token_type_for_quotes
 {
@@ -57,3 +60,5 @@ int				*create_arr(char *s, char **env);
 t_token			*separete_in_tokens(char *s, int *arr, int index);
 void			ft_lstiter_tok(t_token *lst, void (*f)(void *));
 void			prnt(void *s);
+
+#endif
