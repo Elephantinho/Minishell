@@ -3,43 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   copy_print_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mshahein <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:55:39 by mshahein          #+#    #+#             */
-/*   Updated: 2025/03/21 20:32:48 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:38:49 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**copy_env(char **envp)
+int	count_env_size(char **envp)
 {
-	char	**env;
-	int		i;
+	int	i;
 
 	i = 0;
-	env = NULL;
-	if (!envp)
-		return (NULL);
-	while (envp[i])
+	while (envp && envp[i])
 		i++;
-	env = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!env)
-		return (NULL);
+	return (i);
+}
+
+int	copy_env_entries(char **dst, char **src)
+{
+	int	i;
+
 	i = 0;
-	while (envp[i])
+	while (src[i])
 	{
-		env[i] = ft_strdup(envp[i]);
-		if (!env[i])
+		dst[i] = ft_strdup(src[i]);
+		if (!dst[i])
 		{
 			while (i >= 0)
-				free(env[i--]);
-			free(env);
-			return (NULL);
+				free(dst[i--]);
+			return (0);
 		}
 		i++;
 	}
-	env[i] = NULL;
+	dst[i] = NULL;
+	return (1);
+}
+
+char	**copy_env(char **envp)
+{
+	char	**env;
+	int		size;
+
+	if (!envp)
+		return (NULL);
+	size = count_env_size(envp);
+	env = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!env)
+		return (NULL);
+	if (!copy_env_entries(env, envp))
+	{
+		free(env);
+		return (NULL);
+	}
 	return (env);
 }
 

@@ -17,7 +17,10 @@ SRC = main.c \
 		builtins/ft_pwd.c \
 		builtins/export.c \
 		builtins/unset.c \
+		builtins/unset_utils.c \
 		builtins/exit.c \
+		builtins/export_utils.c \
+		builtins/export_utils2.c \
 		parsing/check_ambig_redirect.c \
 		parsing/create_tokens.c \
 		parsing/dollar_special_cases.c \

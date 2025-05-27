@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:58:11 by ade-ross          #+#    #+#             */
-/*   Updated: 2025/03/22 21:04:18 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/26 21:08:30 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*find_home_path(char **envp)
 	char	*path;
 	int		i;
 
-	//da provare facendosi passare env da momo
 	if (envp == NULL)
 		return (NULL);
 	i = 0;
@@ -28,27 +27,10 @@ char	*find_home_path(char **envp)
 		return (NULL);
 	if (envp[i][5] == '\0' || envp[i] == NULL)
 		return (NULL);
-	path = ft_substr(envp[i], 5, ft_strlen(envp[i]));//credo
+	path = ft_substr(envp[i], 5, ft_strlen(envp[i]));
 	return (path);
 }
-/*
-char	*find_pwd_path(char **envp)
-{
-	char	*path;
-	int		i;
 
-	//da provare facendosi passare env da momo
-	if (envp == NULL)
-		return (NULL);
-	i = 0;
-	while (ft_strncmp(envp[i], "PWD=", 4))
-		i++;
-	if (ft_strncmp(envp[i], "PWD=", 4) != 0)
-		return (NULL);
-	if (envp[i][4] == '\0' || envp[i][4] == NULL)
-		return (NULL);
-	return (path);
-} */
 void	set_or_add_env(char *name, char *value, char ***envp)
 {
 	if (ft_getenv(name, *envp))
@@ -65,7 +47,7 @@ void	ft_cd_null_path(char ***envp)
 
 	home = find_home_path(*envp);
 	if (!home)
-		printf("cd: HOME not set\n");//non so se vada bene sto errore
+		printf("cd: HOME not set\n");
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(home) == -1)
 	{
@@ -86,7 +68,6 @@ void	ft_cd_null_path(char ***envp)
 
 void	ft_cd_pars(char **args, char ***envp)
 {
-	//printf("arg 0: %s, arg 1: %s\n", args[0], args[1]);
 	if (args == NULL || args[0] == NULL)
 	{
 		ft_printf("no path present");

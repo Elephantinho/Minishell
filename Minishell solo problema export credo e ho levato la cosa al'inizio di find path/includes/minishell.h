@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/25 19:38:26 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:40:42 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	ft_setenv(char *name, char *value, char ***env);
 void	print_env(char **env);
 void	free_env(char **env);
 int		ft_env_size(char **env);
+int		count_env_size(char **envp);
+int		copy_env_entries(char **dst, char **src);
 
 //cd
 void	ft_cd_pars(char **args, char ***envp);
@@ -95,6 +97,27 @@ void	free_for_exit(char ***args, char *s, char **env);
 int		check_if_arg_of_exit_is_numeric(char ***args, \
 										char *s, char **env, int j);
 void	ft_exit(char ***args, char *s, char **env, int *exit_code);
+
+//unset
+int		is_valid_identifier(char *str);
+int		match_env_var(char *env_var, char *name);
+int		is_duplicate(char **args, int index);
+int		should_remove_var(char *env_var, char **args);
+int		count_new_env_size(char **env, char **args);
+int		copy_filtered_env(char **env, char **args, char **new_env);
+char	**build_new_env(char **env, char **args);
+void	print_invalid_identifiers(char **args);
+
+//export
+void	print_export(char **env);
+void	print_export_error(char *arg);
+void	handle_assignment(char *arg, char ***env);
+void	handle_no_assignment(char *arg, char ***env);
+int		verify(char *str);
+int		count_clean_length(char *str);
+void	copy_without_quotes(char *dst, char *src);
+char	*form_str(char *str);
+void	swap(char **a, char **b);
 
 //check ambig redirection
 void	check_ambig_redirect(t_token **tokens, char **env);
