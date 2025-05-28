@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 19:58:11 by ade-ross          #+#    #+#             */
-/*   Updated: 2025/05/28 01:49:49 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/28 16:37:11 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,6 @@ char	*find_home_path(char **envp)
 	return (path);
 }
 
-void	set_or_add_env(char *name, char *value, char ***envp)
-{
-	if (ft_getenv(name, *envp))
-		ft_setenv(name, value, envp);
-	else
-		ft_addenv(name, value, envp);
-}
-
 void	ft_cd_null_path(char ***envp)
 {
 	char	*home;
@@ -51,7 +43,7 @@ void	ft_cd_null_path(char ***envp)
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(home) == -1)
 	{
-		ft_printf("cd: %s: %s\n", home, strerror(errno));//da mettere write 2 forse?
+		print_cd_error(home);
 		free(home);
 		free (old_pwd);
 		return ;
@@ -66,16 +58,6 @@ void	ft_cd_null_path(char ***envp)
 	free(old_pwd);
 }
 
-void	ft_cd_pars(char **args, char ***envp)
-{
-	if (args == NULL || args[0] == NULL)
-	{
-		write(2, "no path present\n", 16);
-		return ;
-	}
-	ft_cd(args[1], envp);
-}
-
 void	ft_cd(char *path, char ***envp)
 {
 	char	*old_pwd;
@@ -88,7 +70,7 @@ void	ft_cd(char *path, char ***envp)
 		old_pwd = getcwd(NULL, 0);
 		if (chdir(path) == -1)
 		{
-			ft_printf("cd: %s: %s\n", path, strerror(errno));//da mettere write 2 forse?
+			print_cd_error(path);
 			free (old_pwd);
 			return ;
 		}

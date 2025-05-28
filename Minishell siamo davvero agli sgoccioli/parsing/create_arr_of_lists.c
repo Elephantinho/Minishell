@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_arr_of_lists.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <ade-ross@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 22:21:57 by ade-ross          #+#    #+#             */
-/*   Updated: 2025/05/27 20:40:31 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:12:57 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,3 @@ t_token	**create_arr_of_lists(char *s, t_token **tokens)
 	//free(s);//aggiunto oggi (27/maggio)ma non capisco come e' possibile che non ci fosse e che non serva
 	return (arr_of_lists);
 }
-/*void	print_arr_of_lists(t_token	**arr_of_lists)
-{
-	int i = 0;
-	while (arr_of_lists[i])
-	{
-		printf("\narr_or_lists[%d]\n", i);
-		ft_lstiter_tok(arr_of_lists[i], prnt);
-		i++;
-	}
-	printf("\n");
-}*/

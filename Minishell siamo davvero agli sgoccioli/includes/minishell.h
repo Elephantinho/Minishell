@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/28 02:04:12 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/28 16:38:09 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int		ft_env_size(char **env);
 void	ft_cd_pars(char **args, char ***envp);
 void	ft_cd_null_path(char ***envp);
 char	*find_home_path(char **envp);
+void	print_cd_error(const char *path);
 
 // builtins
 void	ft_export(char **args, char ***env);
@@ -276,6 +277,7 @@ void	free_paths(char **paths);
 char	*build_path(char *dir, char *cmd, int *exit_code);
 char	**get_paths_from_env(char ***env, char *cmd, int *exit_code);
 char	*find_command_in_paths(char *cmd, char **paths, int *exit_code);
+char	*check(char *full_path, char *cmd, char **paths, int *exit_code);
 
 t_token	**parsing(char *s, char ***env, int *exit_code_pars);
 
@@ -289,7 +291,7 @@ void	sigint_handler(int sig);
 void	sigint_handler_second(int sig);
 
 //execute_no_pipe_h
-void	init_built_in_or_exec_no_pipes(char ***env, t_token **token_list, \
+void	init_built_in_of_exec_no_pipes(char ***env, t_token **token_list, \
 										int *exit_code, t_exec_no_pipes *st);
 void	handle_cntrl_c_in_exec_no_pipe(t_exec_no_pipes *st);
 void	reset_stdin_stdout_in_exec_no_pipe(t_exec_no_pipes *st);

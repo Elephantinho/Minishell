@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_h.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 08:51:46 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/28 00:59:48 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/28 16:10:41 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@ char	*getenv_path(char **env)
 	return (NULL);
 }
 
-void	free_paths(char **paths)
-{
-	int	i;
-
-	i = 0;
-	while (paths[i])
-		free(paths[i++]);
-	free(paths);
-}
-
 char	*build_path(char *dir, char *cmd, int *exit_code)
 {
 	char	*path;
@@ -45,7 +35,7 @@ char	*build_path(char *dir, char *cmd, int *exit_code)
 	{
 		perror("Minishel: Malloc failed in build_path");
 		*exit_code = 1;
-		//mettere return NULL?
+		return (NULL);
 	}
 	ft_strlcpy(path, dir, ft_strlen(dir) + 1);
 	ft_strlcat(path, "/", ft_strlen(path) + 2);
@@ -73,6 +63,22 @@ char	**get_paths_from_env(char ***env, char *cmd, int *exit_code)
 	return (paths);
 }
 
+char	*check(char *full_path, char *cmd, char **paths, int *exit_code)
+{
+	if (access(full_path, X_OK) == 0)
+	{
+		if (is_directory(full_path, cmd, exit_code))
+		{
+			free(full_path);
+			free_paths(paths);
+			return (NULL);
+		}
+		free_paths(paths);
+		return (full_path);
+	}
+	return (NULL);
+}
+
 char	*find_command_in_paths(char *cmd, char **paths, int *exit_code)
 {
 	char	*full_path;
@@ -84,17 +90,7 @@ char	*find_command_in_paths(char *cmd, char **paths, int *exit_code)
 		full_path = build_path(paths[i], cmd, exit_code);
 		if (!full_path)
 			return (free_paths(paths), NULL);
-		if (access(full_path, X_OK) == 0)
-		{
-			if (is_directory(full_path, cmd, exit_code))
-			{
-				free(full_path);
-				free_paths(paths);
-				return (NULL);
-			}
-			free_paths(paths);
-			return (full_path);
-		}
+		check(full_path, cmd, paths, exit_code);
 		free(full_path);
 		i++;
 	}

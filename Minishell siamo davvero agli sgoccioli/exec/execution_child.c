@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_child.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 01:15:25 by ale               #+#    #+#             */
-/*   Updated: 2025/05/28 02:04:57 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/28 16:24:40 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	execute_mod(char **cmds, char ***env, int *exit_code)
 	free(path);
 }
 
-void	built_in_or_execute_h(char ***env, t_token **arr_of_lists, char	**cmnds, int *exit_code)
+void	built_in_or_execute_h(char ***env, t_token **arr_of_lists, \
+							char	**cmnds, int *exit_code)
 {
 	if ((ft_strncmp(cmnds[0], "export", 6) == 0) && cmnds[0][6] == '\0')
 		ft_export(cmnds, env);
@@ -46,7 +47,7 @@ void	built_in_or_execute_h(char ***env, t_token **arr_of_lists, char	**cmnds, in
 	else if ((ft_strncmp(cmnds[0], "exit", 4) == 0) && cmnds[0][4] == '\0')
 	{
 		write(1, "exit\n", 5);
-		ft_exit(&cmnds, arr_of_lists, *env, exit_code);// da testare meglio di sicuro
+		ft_exit(&cmnds, arr_of_lists, *env, exit_code);
 	}
 	else
 		execute_mod(cmnds, env, exit_code);

@@ -6,15 +6,25 @@
 /*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:26:02 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/27 17:46:49 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:05:13 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	free_paths(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while (paths[i])
+		free(paths[i++]);
+	free(paths);
+}
+
 int	is_directory(char *path, char *cmd, int *exit_code)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
 	if (!path)
 		return (0);
@@ -42,9 +52,9 @@ void	write_no_such_file_or_dir(char *cmd, int *exit_code)
 int	absolute_path(char *cmd, int *exit_code)
 {
 	int		i;
+	int		last;
 
 	i = 0;
-	int last;
 	while (cmd[i] != '\0')
 		i++;
 	last = i - 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_no_pipes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:13:56 by ade-ross          #+#    #+#             */
-/*   Updated: 2025/05/28 01:47:47 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/28 16:23:55 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ void	execute_mod_no_pipes_case(char ***cmds, char ***env, \
 
 	pid = fork();
 	if (pid == -1)
+	{
 		perror("fork failed");
+		return (NULL);
+	}	
 	if (pid == 0)
 	{
 		execute_mod_no_pipes_case_child(cmds, env, exit_code, s);
@@ -75,10 +78,10 @@ void	built_in_or_execute_no_pipes_h(char ***env, \
 	else if ((ft_strncmp(s->cmnds[0], "exit", 4) == 0) && !s->cmnds[0][4])
 	{
 		write(1, "exit\n", 5);
-		ft_exit_no_pipes(&(s->cmnds), s, *env, exit_code);//non so se c'e ancora s da liberare
+		ft_exit_no_pipes(&(s->cmnds), s, *env, exit_code);
 	}
 	else
-		execute_mod_no_pipes_case(&(s->cmnds), env, exit_code, s);//in questo caso bisogna passare save fd in e chiuderlo dentro mi sa
+		execute_mod_no_pipes_case(&(s->cmnds), env, exit_code, s);
 }
 
 char	**built_in_or_execute_no_pipes(char ***env, t_token **tk_list, \
@@ -86,10 +89,11 @@ char	**built_in_or_execute_no_pipes(char ***env, t_token **tk_list, \
 {
 	t_exec_no_pipes	st;
 
-	init_built_in_or_exec_no_pipes(env, tk_list, exit_code, &st);
+	init_built_in_of_exec_no_pipes(env, tk_list, exit_code, &st);
 	if (g_exit_status == 130)
 	{
-		return (handle_cntrl_c_in_exec_no_pipe(&st), NULL);//non so se è giusto ritornare NULL qui
+		handle_cntrl_c_in_exec_no_pipe(&st);
+		return (NULL);
 	}
 	if (handle_redirections(tk_list, &st.heredoc_alredy_done, exit_code) == 1)
 		st.cmnds = create_matrix_and_free_list(tk_list, tk_list, &st.cmnds);

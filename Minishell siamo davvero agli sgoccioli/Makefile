@@ -13,6 +13,7 @@ SRC = main.c \
 		env/get_set_env.c \
 		builtins/env.c \
 		builtins/ft_cd.c \
+		builtins/ft_cd_h.c \
 		builtins/ft_echo.c \
 		builtins/ft_pwd.c \
 		builtins/export.c \

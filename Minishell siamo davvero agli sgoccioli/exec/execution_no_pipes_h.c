@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_no_pipes_h.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 21:55:58 by ale               #+#    #+#             */
-/*   Updated: 2025/05/27 15:24:18 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/28 16:19:35 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	init_built_in_or_exec_no_pipes(char ***env, t_token **token_list, \
+void	init_built_in_of_exec_no_pipes(char ***env, t_token **token_list, \
 										int *exit_code, t_exec_no_pipes *st)
 {
 	st->env = env;
@@ -26,7 +26,7 @@ void	init_built_in_or_exec_no_pipes(char ***env, t_token **token_list, \
 
 void	handle_cntrl_c_in_exec_no_pipe(t_exec_no_pipes *st)
 {
-	if (st->fd >= 0) //testare bene cntrl c
+	if (st->fd >= 0)
 		close(st->fd);
 	free_arr_of_lists(st->token_list, 1, 1);
 	close(st->save_fd_in);
