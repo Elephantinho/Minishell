@@ -69,12 +69,7 @@ void	dollar_qmark_case(t_str *st, char **env)
 
 int	special_cases(t_str *st, char **env)
 {
-	if (st->s[st->i] == '$' && \
-		!(st->prev && st->prev->e_tk_type == HEREDOC))
-	{
-		double_dollar_case(st, env);
-	}
-	else if (st->s[st->i] == '?' && \
+	if (st->s[st->i] == '?' && \
 		!(st->prev && st->prev->e_tk_type == HEREDOC))
 	{
 		dollar_qmark_case(st, env);
@@ -95,3 +90,9 @@ int	special_cases(t_str *st, char **env)
 		st->env_content = NULL;
 	return (1);
 }
+/* if (st->s[st->i] == '$' && \
+		!(st->prev && st->prev->e_tk_type == HEREDOC))
+	{
+		double_dollar_case(st, env);
+	}
+	else  */
