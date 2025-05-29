@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-ross <ade-ross@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:34:34 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/28 19:33:21 by ade-ross         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:06:52 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
@@ -97,6 +96,7 @@ void	ft_setenv(char *name, char *value, char ***env);
 void	print_env(char **env);
 void	free_env(char **env);
 int		ft_env_size(char **env);
+char	*create_new_env_entry(char *name, char *value);
 
 //cd
 void	ft_cd_pars(char **args, char ***envp);
@@ -126,19 +126,17 @@ char	**build_new_env(char **env, char **args);
 void	print_invalid_identifiers(char **args);
 
 //export
-void	print_export(char **env);
-void	print_export_error(char *arg);
-void	handle_assignment(char *arg, char ***env);
-void	handle_no_assignment(char *arg, char ***env);
-void	copy_without_quotes(char *dst, char *src);
-char	*form_str(char *str);
-void	swap(char **a, char **b);
-void	sort_env(char **env);
-char	**ft_copy_matrix(char **matrix);
-int		verify(char *str);
-int		count_clean_length(char *str);
+void	ft_export_hh(char *args, char ***env);
+void	ft_export_h(char *args);
 void	free_mat(char **mat);
-void	print_export_line(char *var);
+void	swap(char **a, char **b);
+void	print_export_var(char *var);
+void	print_export(char **env);
+char	**ft_copy_matrix(char **matrix);
+void	sort_env(char **env);
+char	*form_str(char *str);
+void	form_str_h(char *str, int *len);
+int		verify(char *str);
 
 //exit
 void	close_fds_for_exit_no_pipes(t_exec_no_pipes *st);

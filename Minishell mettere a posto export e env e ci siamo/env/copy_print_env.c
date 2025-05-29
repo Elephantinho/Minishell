@@ -6,7 +6,7 @@
 /*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:55:39 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/29 15:47:36 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:59:51 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ char	**copy_env(char **envp)
 	return (env[i] = NULL, env);
 }
 
-void print_env(char **env)
+void	print_env(char **env)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (env[i])
 	{
 		if (ft_strchr(env[i], '='))
@@ -51,7 +53,3 @@ void print_env(char **env)
 		i++;
 	}
 }
-
-
-
-
