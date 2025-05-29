@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:57:16 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/28 01:08:59 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/29 14:40:42 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	**ft_addenv(char *name, char *value, char ***env)
 	char	**new_env;
 	int		i;
 	char	*temp;
+	char	*new_var;
 
 	i = 0;
 	new_env = NULL;
@@ -31,10 +32,16 @@ char	**ft_addenv(char *name, char *value, char ***env)
 		new_env[i] = ft_strdup((*env)[i]);
 		i++;
 	}
-	temp = ft_strjoin(name, "=");
-	new_env[i] = ft_strjoin(temp, value);
+	if (value == NULL)
+		new_var = ft_strdup(name);
+	else
+	{
+		temp = ft_strjoin(name, "=");
+		new_var = ft_strjoin(temp, value);
+		free(temp);
+	}
+	new_env[i] = new_var;
 	new_env[i + 1] = NULL;
-	free(temp);
 	free_env(*env);
 	(*env) = new_env;
 	return (new_env);

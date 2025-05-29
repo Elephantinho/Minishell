@@ -5,39 +5,66 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 21:26:05 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/27 17:09:01 by mshahein         ###   ########.fr       */
+/*   Created: 2025/05/29 16:00:31 by mshahein          #+#    #+#             */
+/*   Updated: 2025/05/29 16:23:34 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	copy_without_quotes(char *dst, char *src)
+int	verify(char *str)
 {
 	int	i;
-	int	j;
 
-	i = 0;
-	j = 0;
-	while (src[i])
+	if (!str || !((str[0] >= 'a' && str[0] <= 'z') \
+		|| (str[0] >= 'A' && str[0] <= 'Z') || str[0] == '_'))
+		return (-1);
+	i = 1;
+	while (str[i] && str[i] != '=')
 	{
-		if (src[i] != '\'' && src[i] != '"')
-			dst[j++] = src[i];
+		if (!((str[i] >= 'a' && str[i] <= 'z') \
+			|| (str[i] >= 'A' && str[i] <= 'Z') \
+			|| (str[i] >= '0' && str[i] <= '9') || str[i] == '_'))
+			return (-1);
 		i++;
 	}
-	dst[j] = '\0';
+	return (0);
+}
+
+void	form_str_h(char *str, int *len)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '\'' && str[i] != '"')
+			(*)len++;
+		i++;
+	}
 }
 
 char	*form_str(char *str)
 {
+	int		i;
+	int		j;
 	int		len;
 	char	*clean;
 
-	len = count_clean_length(str);
+	i = 0;
+	j = 0;
+	len = 0;
+	form_str_h(str, &len);
 	clean = malloc(len + 1);
 	if (!clean)
 		return (NULL);
-	copy_without_quotes(clean, str);
+	while (str[i])
+	{
+		if (str[i] != '\'' && str[i] != '"')
+			clean[j++] = str[i];
+		i++;
+	}
+	clean[j] = '\0';
 	return (clean);
 }
 
@@ -55,6 +82,7 @@ void	sort_env(char **env)
 	int	i;
 	int	sorted;
 
+	i = 0;
 	sorted = 0;
 	while (!sorted)
 	{

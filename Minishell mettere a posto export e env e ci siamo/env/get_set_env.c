@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_set_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 18:12:05 by mshahein          #+#    #+#             */
-/*   Updated: 2025/04/20 23:45:17 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/29 15:44:10 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,26 @@
 
 char	*ft_getenv(char *name, char **env)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 
-	i = 0;
 	len = ft_strlen(name);
+	i = 0;
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], name, len) && env[i][len] == '=')
-			return (env[i] + len + 1);
+		if (!ft_strncmp(env[i], name, len) &&
+			(env[i][len] == '=' || env[i][len] == '\0'))
+		{
+			if (env[i][len] == '=')
+				return (env[i] + len + 1);
+			else
+				return ("");
+		}
 		i++;
 	}
 	return (NULL);
 }
+
 
 void	ft_setenv(char *name, char *value, char ***env)
 {
@@ -40,16 +47,21 @@ void	ft_setenv(char *name, char *value, char ***env)
 	new_env = NULL;
 	while ((*env)[i])
 	{
-		if (!ft_strncmp((*env)[i], name, len) && (*env)[i][len] == '=')
+		if ((!ft_strncmp((*env)[i], name, len)) &&
+			((*env)[i][len] == '=' || (*env)[i][len] == '\0'))
 		{
 			free((*env)[i]);
-			new_env = ft_strjoin(name, "=");
-			temp = new_env;
-			new_env = ft_strjoin(new_env, value);
-			free(temp);
-			(*env)[i] = new_env;
+			if (value == NULL)
+				(*env)[i] = ft_strdup(name);
+			else
+			{
+				temp = ft_strjoin(name, "=");
+				(*env)[i] = ft_strjoin(temp, value);
+				free(temp);
+			}
 			return ;
 		}
 		i++;
 	}
 }
+

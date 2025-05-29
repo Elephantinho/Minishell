@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_print_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale <ale@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 17:55:39 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/28 01:28:12 by ale              ###   ########.fr       */
+/*   Updated: 2025/05/29 15:47:36 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,17 @@ char	**copy_env(char **envp)
 	return (env[i] = NULL, env);
 }
 
-void	print_env(char **env)
+void print_env(char **env)
 {
-	int	i;
-
-	i = 0;
+	int i = 0;
 	while (env[i])
 	{
-		ft_putendl_fd(env[i], 1);
+		if (ft_strchr(env[i], '='))
+			printf("%s\n", env[i]);
 		i++;
 	}
 }
+
+
+
+
