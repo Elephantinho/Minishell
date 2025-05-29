@@ -6,7 +6,7 @@
 /*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:00:37 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/29 16:15:21 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:28:25 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,13 @@ void	free_mat(char **mat)
 	while (mat[i])
 		free(mat[i++]);
 	free(mat);
+}
+
+void	swap(char **a, char **b)
+{
+	char	*tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }

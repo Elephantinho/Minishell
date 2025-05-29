@@ -18,7 +18,7 @@ SRC = main.c \
 		builtins/ft_pwd.c \
 		builtins/export.c \
 		builtins/export_utils.c \
-		builtins/export_utils_.c \
+		builtins/export_utils_h.c \
 		builtins/unset.c \
 		builtins/unset_utils.c \
 		builtins/exit.c \

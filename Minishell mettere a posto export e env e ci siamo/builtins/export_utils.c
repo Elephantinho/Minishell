@@ -6,7 +6,7 @@
 /*   By: mshahein <mshahein@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:00:31 by mshahein          #+#    #+#             */
-/*   Updated: 2025/05/29 16:23:34 by mshahein         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:32:22 by mshahein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	form_str_h(char *str, int *len)
 	while (str[i])
 	{
 		if (str[i] != '\'' && str[i] != '"')
-			(*)len++;
+			(*len)++;
 		i++;
 	}
 }
@@ -66,15 +66,6 @@ char	*form_str(char *str)
 	}
 	clean[j] = '\0';
 	return (clean);
-}
-
-void	swap(char **a, char **b)
-{
-	char	*tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
 }
 
 void	sort_env(char **env)
